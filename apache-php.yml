@@ -7,7 +7,19 @@
       ansible.builtin.yum:
         name: httpd
         state: present
-      
+    - name: install php modules
+      ansible.builtin.yum:
+        name:
+          - php 
+          - php-fpm
+          - php-mysql
+        state: present
+    - name: copy content in info.php
+      ansible.builtin.copy:
+        src: /home/ubuntu/info.php
+        dest: /var/www/html/
+      notify: restart httpd
+  handlers:
     - name: restart httpd
       ansible.builtin.service:
         name: httpd
