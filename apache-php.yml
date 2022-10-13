@@ -1,0 +1,14 @@
+---
+- name: install httpd and php
+  become: true
+  hosts: all
+  tasks:
+    - name: install httpd
+      ansible.builtin.yum:
+        name: httpd
+        state: present
+      
+    - name: restart httpd
+      ansible.builtin.service:
+        name: httpd
+        state: restarted
