@@ -8,11 +8,23 @@
         name: apache2
         state: present
         update_cache: yes
-    - name: install apache2
+    - name: install PHP
       ansible.builtin.apt:
-        name: php libapache2-mod-php
+        name: 
+          - php 
+          - libapache2-mod-php
         state: present
         update_cache: yes
+    - name: create info.php file
+      ansible.builtin.file:
+        path: /var/www/html/info.php
+        state: touch
+    - name: copy content in info.php
+      ansible.builtin.copy:
+        dest: /var/www/html/info.php
+        content: "<?php 
+                  phpinfo();
+                  ?>"
     - name: apache2 service restart
       ansible.builtin.service:
         name: apache2
