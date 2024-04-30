@@ -10,15 +10,18 @@
     #   - php-mysql
     location: /var/www/html/
   tasks:
-    - name: installing apache pkg
+    - name: installing apache pkg and php pkgs
       ansible.builtin.apt:
         update_cache: yes
-        name: "{{ package1 }}"
+        name: "{{ packages }}"
         state: present
-    - name: installing php pkg
-      ansible.builtin.apt:
-        name: "{{ package2 }}"
-        state: present
+    - name: confirmation msg
+      ansible.bulitin.debug:
+        msg: "{{ packages }} successfully installed"
+    # - name: installing php pkg
+    #   ansible.builtin.apt:
+    #     name: "{{ package2 }}"
+    #     state: present
     - name: copy file to php location
       ansible.builtin.copy:
         src: info.php

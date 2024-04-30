@@ -1,0 +1,8 @@
+[webservers]
+172.31.24.203 
+
+[webservers:vars]
+ 
+packages='["apache2", "php", "php-mysql", "libapache2-mod-php"]'
+ 
+ 

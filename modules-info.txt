@@ -1,0 +1,7 @@
+for ubuntu pkgs: apt
+service module for service start,stop,restart,reload,enabled
+notify for handlers
+debug module for printing message
+copy module for a file to copy to the remote server/ content for newly created file
+ping module for checking node(offline/online)
+
