@@ -1,0 +1,34 @@
+---
+- name: installing lamp on ubuntu
+  become: yes
+  hosts: Ubuntu Server
+  vars:
+    package1: apache2
+    package2:
+      - php 
+      - libapache2-mod-php 
+      - php-mysql
+    location: /var/www/html/
+  tasks:
+    - name: installing apache pkg
+      ansible.builtin.apt:
+        update_cache: yes
+        name: "{{ package1 }}"
+        state: present
+    - name: installing php pkg
+      ansible.builtin.apt:
+        name: "{{ package2 }}"
+        state: present
+    - name: copy file to php location
+      ansible.builtin.copy:
+        src: info.php
+        dest: "{{ location }}"
+      notify:
+        - restarting apache server
+  handlers:
+    - name: restarting apache server
+      ansible.builtin.service:
+        name: "{{ package1 }}"
+        state: restarted
+
+
