@@ -1,0 +1,25 @@
+---
+- name: installing lamp on rhel9
+  become: yes
+  hosts: appservers
+  vars: 
+    file_location: /var/www/html/
+  tasks:
+    - name: install required pkgs
+      ansible.builtin.dnf:
+        name: "{{ packages }}"
+        state: present
+    - name: confirmation msg
+      ansible.builtin.debug:
+        msg: "required {{ packages }} installed successfully"
+    - name: copy info.php file
+      ansible.builtin.copy:
+        src: info.php
+        dest: "{{ file_location }}"
+      notify: enable start httpd
+  handlers:
+    - name: enable start httpd
+      ansible.builtin.service:
+        name: httpd
+        enabled: yes
+        state: restarted
