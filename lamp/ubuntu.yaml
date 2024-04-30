@@ -1,7 +1,7 @@
 ---
 - name: installing lamp on ubuntu
   become: yes
-  hosts: Ubuntu Server
+  hosts: UbuntuServer
   vars:
     package1: apache2
     package2:
