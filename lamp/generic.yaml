@@ -1,0 +1,26 @@
+---
+- name: installing lamp on generic-os
+  become: yes
+  hosts: servers
+  vars_files:
+    defaults.yaml
+  vars:
+    file_location: /var/www/html/
+  tasks:
+    - name: installing lap on ubuntu
+      ansible.builtin.apt:
+        name: {{ item }}
+        state: present
+      loop: "{{ packages }}"
+      when: ansible_facts['os_family'] == "debain"
+    - name: conformatio message
+      ansible.builtin.debug:
+        msg: '{{ packages }} successfully installed'
+    - name: installing lap on rhel
+      ansible.builtin.dnf:
+        name: "{{ package }}"
+        state: present
+      when: ansible_facts['os_family'] == "rhel"
+    - name: conformatio message
+      ansible.builtin.debug:
+        msg: '{{ package }} successfully installed'
