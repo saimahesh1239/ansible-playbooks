@@ -4,23 +4,31 @@
   hosts: servers
   vars_files:
     defaults.yaml
-  vars:
-    file_location: /var/www/html/
   tasks:
-    - name: installing lap on ubuntu
-      ansible.builtin.apt:
-        name: {{ item }}
-        state: present
-      loop: "{{ packages }}"
-      when: ansible_facts['os_family'] == "debain"
-    - name: conformatio message
-      ansible.builtin.debug:
-        msg: '{{ packages }} successfully installed'
-    - name: installing lap on rhel
-      ansible.builtin.dnf:
+    - name: "installing {{ package }}"
+      ansible.builtin.package:
         name: "{{ package }}"
         state: present
-      when: ansible_facts['os_family'] == "rhel"
-    - name: conformatio message
-      ansible.builtin.debug:
-        msg: '{{ package }} successfully installed'
+    - name: "installing {{ package1 }}"
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ package1 }}"
+    - name: "installing {{ package2 }}"
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ package2 }}"
+    - name: copy file to php location
+      ansible.builtin.copy:
+        src: info.php
+        dest: "{{ file_location }}"
+      notify: "restarting {{ package }}"
+  handlers:
+    - name: "restarting {{ package }}"
+      ansible.builtin.service:
+        name: "{{ package }}"
+        state: restarted
+        enabled: yes
+      when: (ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "20") or (ansible_facts['distribution'] == "RedHat" and ansible_facts['distribution_major_version'] == "9")
+

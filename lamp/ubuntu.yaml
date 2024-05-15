@@ -2,36 +2,27 @@
 - name: installing lamp on ubuntu
   become: yes
   hosts: webservers
-  vars:
-    # package1: apache2
-    # package2:
-    #   - php 
-    #   - libapache2-mod-php 
-    #   - php-mysql
-    location: /var/www/html/
   tasks:
-    - name: installing apache pkg and php pkgs
+    - name: installing apache and php pkgs
       ansible.builtin.apt:
         update_cache: yes
-        name: "{{ packages }}"
+        name: "{{ package }}"
+        state: present  
+    - name: installing php pkgs
+      ansible.bulitin.apt:
+        name: "{{ package1 }}"
         state: present
-    - name: confirmation msg
-      ansible.bulitin.debug:
-        msg: "{{ packages }} successfully installed"
-    # - name: installing php pkg
-    #   ansible.builtin.apt:
-    #     name: "{{ package2 }}"
-    #     state: present
     - name: copy file to php location
       ansible.builtin.copy:
         src: info.php
-        dest: "{{ location }}"
+        dest: "{{ file_location }}"
       notify:
         - restarting apache server
   handlers:
     - name: restarting apache server
       ansible.builtin.service:
-        name: "{{ package1 }}"
+        name: "{{ package }}"
         state: restarted
+      
 
 

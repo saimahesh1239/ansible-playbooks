@@ -5,13 +5,14 @@
   vars: 
     file_location: /var/www/html/
   tasks:
-    - name: install required pkgs
+    - name: install httpd pkgs
       ansible.builtin.dnf:
-        name: "{{ packages }}"
+        name: "{{ package }}"
         state: present
-    - name: confirmation msg
-      ansible.builtin.debug:
-        msg: "required {{ packages }} installed successfully"
+    - name: install php pkgs
+      ansible.builtin.dnf:
+        name: "{{ package1 }}"
+        state: present
     - name: copy info.php file
       ansible.builtin.copy:
         src: info.php
@@ -20,6 +21,6 @@
   handlers:
     - name: enable start httpd
       ansible.builtin.service:
-        name: httpd
+        name: "{{ package }}"
         enabled: yes
         state: restarted

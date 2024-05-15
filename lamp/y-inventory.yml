@@ -2,8 +2,8 @@ appservers:
   hosts:
     172.31.23.67:
   vars:
-    packages:
-      - httpd
+    package: httpd
+    package1: 
       - php 
       - php-cli 
       - php-common 

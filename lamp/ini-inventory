@@ -2,7 +2,8 @@
 172.31.24.203 
 
 [webservers:vars]
- 
-packages='["apache2", "php", "php-mysql", "libapache2-mod-php"]'
+package=apache2
+package1='["php", "php-mysql", "libapache2-mod-php"]'
+file_location= /var/www/html/
  
  

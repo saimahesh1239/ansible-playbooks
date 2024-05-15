@@ -4,4 +4,5 @@ notify for handlers
 debug module for printing message
 copy module for a file to copy to the remote server/ content for newly created file
 ping module for checking node(offline/online)
-
+fail module for info about server,which supports task
+package module for installing generic pkg

@@ -1,8 +1,0 @@
----
-- name: update debain pkg 
-  become: yes
-  hosts: webservers
-  tasks: 
-    - name: update pkg
-      ansible.builtin.apt:
-        update_cache: yes
